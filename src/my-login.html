@@ -1,0 +1,65 @@
+<dom-module id="my-login">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+
+      paper-material {
+        margin: 15% 25% 15% 32%;
+        width: 35%;
+      }
+
+      paper-material h3 {
+        padding-top: 20px;
+        text-align: center;
+      }
+
+      paper-material paper-input {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      paper-material paper-button {
+        margin-left: 20px;
+        margin-bottom: 20px;
+        margin-top: 20px;
+      }
+    </style>
+
+    <iron-localstorage id="userStorage" name="my-user" value="{{user}}"></iron-localstorage>
+
+    <form id="formLogin" is="iron-form">
+      <paper-material elevation="1">
+        <h3>Sistema Teste de Polymer</h3>
+        <paper-input label="E-mail" name="email" id="email" required auto-validate error-message="E-mail é obrigatório"></paper-input>
+        <paper-input type="password" label="Senha" name="senha" id="senha" required auto-validate error-message="Senha é obrigatório"></paper-input>
+        <paper-button raised on-tap="login">Entrar</paper-button>
+      </paper-material>
+    </form>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'my-login',
+      properties: {
+        user: {
+          type: Object
+        }
+      },
+      login: function(e) {
+        let email = this.$.formLogin.email.value;
+        let senha = this.$.formLogin.senha.value;
+        this.user = {email: email, senha: senha};
+        window.location.href = 'view1';
+      },
+
+      ready: function () {
+        if (this.user == null) {
+          window.history.pushState('', '', '/');
+        }
+      }
+    });
+  </script>
+</dom-module>
