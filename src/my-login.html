@@ -49,8 +49,8 @@
         }
       },
       login: function(e) {
-        let email = this.$.formLogin.email.value;
-        let senha = this.$.formLogin.senha.value;
+        let email = this.$.email.value;
+        let senha = this.$.senha.value;
         this.user = {email: email, senha: senha};
         window.location.href = 'view1';
       },
