@@ -27,16 +27,18 @@
       }
     </style>
 
-    <iron-localstorage id="userStorage" name="my-user" value="{{user}}"></iron-localstorage>
-
-    <form id="formLogin" is="iron-form">
       <paper-material elevation="1">
         <h3>Sistema Teste de Polymer</h3>
         <paper-input label="E-mail" name="email" id="email" required auto-validate error-message="E-mail é obrigatório"></paper-input>
         <paper-input type="password" label="Senha" name="senha" id="senha" required auto-validate error-message="Senha é obrigatório"></paper-input>
-        <paper-button raised on-tap="login">Entrar</paper-button>
+        <paper-button raised on-tap="doLogin">Entrar</paper-button>
       </paper-material>
-    </form>
+      <iron-ajax id="ajaxLogin"
+        auto
+        method="post"
+        url="http://0.0.0.0:3000/login"
+        handle-as="json"
+        on-response="loginResponse"></iron-ajax>
 
   </template>
 
@@ -44,22 +46,24 @@
     Polymer({
       is: 'my-login',
       properties: {
-        user: {
-          type: Object
+        email: {
+          type: String
+        },
+        senha: {
+          type: String
         }
-      },
-      login: function(e) {
-        let email = this.$.email.value;
-        let senha = this.$.senha.value;
-        this.user = {email: email, senha: senha};
-        window.location.href = 'view1';
       },
 
-      ready: function () {
-        if (this.user == null) {
-          window.history.pushState('', '', '/');
-        }
-      }
+      doLogin: function (e) {
+        var dataList = 'email=' + encodeURIComponent(this.$.email.value) + '&senha=' + encodeURIComponent(this.$.senha.value);
+        this.$.ajaxLogin.body = dataList;
+        this.$.ajaxLogin.generateRequest();
+      },
+
+      loginResponse: function(r) {
+        console.log(r);
+      },
+
     });
   </script>
 </dom-module>

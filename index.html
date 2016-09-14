@@ -100,7 +100,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         margin: 0;
         font-family: 'Roboto', 'Noto', sans-serif;
         line-height: 1.5;
-        min-height: 100vh;
+        min-height: 100px;
         background-color: #eeeeee;
       }
     </style>
@@ -110,6 +110,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <template is="dom-bind" id="app">
       <my-app></my-app>
     </template>
+
+    <script>
+      window.USER_TOKEN = '{{token}}' || null;
+    </script>
 
   </body>
 </html>
