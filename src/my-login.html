@@ -44,6 +44,7 @@
   <script>
     Polymer({
       is: 'my-login',
+
       properties: {
         email: {
           type: String
@@ -60,7 +61,8 @@
       },
 
       loginResponse: function(data) {
-        window.USER_TOKEN = data.detail.response.token;
+        window.localStorage.setItem('token_polymer', data.detail.response.token);
+        window.location.href = '/view1';
       }
 
     });

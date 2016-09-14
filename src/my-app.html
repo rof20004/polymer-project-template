@@ -37,9 +37,28 @@
 
         font-weight: bold;
       }
-    </style>
 
-    <iron-localstorage id="userStorage" name="my-user" value="{{user}}"></iron-localstorage>
+      paper-material {
+        margin: 15% 25% 15% 32%;
+        width: 35%;
+      }
+
+      paper-material h3 {
+        padding-top: 20px;
+        text-align: center;
+      }
+
+      paper-material paper-input {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      paper-material paper-button {
+        margin-left: 20px;
+        margin-bottom: 20px;
+        margin-top: 20px;
+      }
+    </style>
 
     <app-location route="{{route}}"></app-location>
     <app-route
@@ -61,6 +80,7 @@
             <a name="view1" href="/view1">View One</a>
             <a name="view2" href="/view2">View Two</a>
             <a name="view3" href="/view3">View Three</a>
+            <paper-button raised on-tap="doLogout">Sair</paper-button>
           </iron-selector>
         </app-drawer>
 
@@ -102,6 +122,12 @@
         },
         user: {
           type: Object
+        },
+        email: {
+          type: String
+        },
+        senha: {
+          type: String
         }
       },
 
@@ -121,7 +147,17 @@
 
       _showPage404: function() {
         this.page = 'view404';
-      }
+      },
+
+      ready: function() {
+        this.user = window.localStorage.getItem('token_polymer');
+      },
+
+      doLogout: function (e) {
+        window.localStorage.removeItem("token_polymer");
+        window.location.href = '/';
+      },
+
     });
   </script>
 </dom-module>
