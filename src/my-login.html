@@ -34,7 +34,6 @@
         <paper-button raised on-tap="doLogin">Entrar</paper-button>
       </paper-material>
       <iron-ajax id="ajaxLogin"
-        auto
         method="post"
         url="http://0.0.0.0:3000/login"
         handle-as="json"
@@ -60,9 +59,9 @@
         this.$.ajaxLogin.generateRequest();
       },
 
-      loginResponse: function(r) {
-        console.log(r);
-      },
+      loginResponse: function(data) {
+        window.USER_TOKEN = data.detail.response.token;
+      }
 
     });
   </script>
