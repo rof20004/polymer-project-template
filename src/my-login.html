@@ -37,7 +37,8 @@
         method="post"
         url="http://0.0.0.0:3000/login"
         handle-as="json"
-        on-response="loginResponse"></iron-ajax>
+        on-response="loginResponse"
+        on-error="handleErrorResponse"></iron-ajax>
 
   </template>
 
@@ -46,12 +47,6 @@
       is: 'my-login',
 
       properties: {
-        email: {
-          type: String
-        },
-        senha: {
-          type: String
-        }
       },
 
       doLogin: function (e) {
@@ -63,6 +58,10 @@
       loginResponse: function(data) {
         window.localStorage.setItem('token_polymer', data.detail.response.token);
         window.location.href = '/view1';
+      },
+
+      handleErrorResponse: function(data) {
+        alert(data.detail.request.xhr.response.message);
       }
 
     });
