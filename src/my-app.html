@@ -68,7 +68,20 @@
         tail="{{subroute}}"></app-route>
 
     <template is="dom-if" if="{{!user}}">
-      <my-login></my-login>
+      <firebase-auth
+          id="auth"
+          user="{{user}}"
+          provider="google"
+          on-login="onLogin"
+          on-error="firebaseLoginError">
+      </firebase-auth>
+
+      <paper-material elevation="1">
+        <h3>Sistema Teste de Polymer</h3>
+        <paper-input label="E-mail" name="email" id="email" required auto-validate error-message="E-mail é obrigatório"></paper-input>
+        <paper-input type="password" label="Senha" name="senha" id="senha" required auto-validate error-message="Senha é obrigatório"></paper-input>
+        <paper-button flex layout horizontal raised on-tap="firebaseLogin"><iron-icon icon="social:person"></iron-icon>&nbsp;Entrar com Google</paper-button>
+      </paper-material>
     </template>
 
     <template is="dom-if" if="{{user}}">
@@ -80,7 +93,7 @@
             <a name="view1" href="/view1">View One</a>
             <a name="view2" href="/view2">View Two</a>
             <a name="view3" href="/view3">View Three</a>
-            <a name="sair"  href="#" on-tap="doLogout" >Sair</a>
+            <a name="sair"  href="#" on-tap="firebaseLogout" >Sair</a>
           </iron-selector>
         </app-drawer>
 
@@ -121,7 +134,8 @@
           observer: '_pageChanged'
         },
         user: {
-          type: Object
+          type: Object,
+          value: null
         }
       },
 
@@ -143,14 +157,20 @@
         this.page = 'view404';
       },
 
-      ready: function() {
-        this.user = window.localStorage.getItem('token_polymer');
+      firebaseLogin: function() {
+        this.$$('#auth').signInWithPopup();
       },
 
-      doLogout: function (e) {
-        window.localStorage.removeItem("token_polymer");
-        window.location.href = '/';
+      firebaseLogout: function() {
+        this.$$('#auth').signOut();
+        window.history.pushState(null, null, '/');
       },
+
+      firebaseLoginError: function(error) {
+        var app = document.querySelector('#app');
+        app.$.toast.text = error;
+        app.$.toast.show();
+      }
 
     });
   </script>

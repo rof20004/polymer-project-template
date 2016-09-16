@@ -27,41 +27,38 @@
       }
     </style>
 
+      <firebase-auth
+          id="auth"
+          user="{{user}}"
+          provider="google"
+          on-error="firebaseLoginError">
+      </firebase-auth>
+
       <paper-material elevation="1">
         <h3>Sistema Teste de Polymer</h3>
         <paper-input label="E-mail" name="email" id="email" required auto-validate error-message="E-mail é obrigatório"></paper-input>
         <paper-input type="password" label="Senha" name="senha" id="senha" required auto-validate error-message="Senha é obrigatório"></paper-input>
-        <paper-button raised on-tap="doLogin">Entrar</paper-button>
+        <paper-button raised on-tap="gmailLogin">Entrar com Google</paper-button>
       </paper-material>
-      <iron-ajax id="ajaxLogin"
-        method="post"
-        url="http://0.0.0.0:3000/login"
-        handle-as="json"
-        on-response="loginResponse"
-        on-error="handleErrorResponse"></iron-ajax>
 
   </template>
 
   <script>
     Polymer({
+
       is: 'my-login',
 
       properties: {
       },
 
-      doLogin: function (e) {
-        var dataList = 'email=' + encodeURIComponent(this.$.email.value) + '&senha=' + encodeURIComponent(this.$.senha.value);
-        this.$.ajaxLogin.body = dataList;
-        this.$.ajaxLogin.generateRequest();
+      gmailLogin: function() {
+        this.$.auth.signInWithPopup();
       },
 
-      loginResponse: function(data) {
-        window.localStorage.setItem('token_polymer', data.detail.response.token);
-        window.location.href = '/view1';
-      },
-
-      handleErrorResponse: function(data) {
-        alert(data.detail.request.xhr.response.message);
+      firebaseLoginError: function(data) {
+        var app = document.querySelector('#app');
+        app.$.toast.text = data;
+        app.$.toast.show();
       }
 
     });
