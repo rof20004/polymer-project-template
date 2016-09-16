@@ -57,6 +57,12 @@
         margin-left: 20px;
         margin-bottom: 20px;
         margin-top: 20px;
+        margin-right: 20px;
+        width: 90%;
+      }
+
+      .facebook {
+        background: #64b5f6;
       }
     </style>
 
@@ -71,7 +77,7 @@
       <firebase-auth
           id="auth"
           user="{{user}}"
-          provider="google"
+          provider="{{provider}}"
           on-login="onLogin"
           on-error="firebaseLoginError">
       </firebase-auth>
@@ -80,7 +86,9 @@
         <h3>Sistema Teste de Polymer</h3>
         <paper-input label="E-mail" name="email" id="email" required auto-validate error-message="E-mail é obrigatório"></paper-input>
         <paper-input type="password" label="Senha" name="senha" id="senha" required auto-validate error-message="Senha é obrigatório"></paper-input>
-        <paper-button raised on-tap="firebaseLogin"><iron-icon icon="social:person"></iron-icon></paper-button>
+        <paper-button raised on-tap="firebaseLogin">Entrar</paper-button>
+        <paper-button raised on-tap="firebaseLogin" data-args="google"><iron-icon icon="social:person"></iron-icon>&nbsp;Entrar com Google</paper-button>
+        <paper-button raised on-tap="firebaseLogin" data-args="facebook" class="facebook"><iron-icon icon="icons:thumbs-up-down"></iron-icon>&nbsp;Entrar com Facebook</paper-button>
       </paper-material>
     </template>
 
@@ -135,7 +143,12 @@
         },
         user: {
           type: Object,
+          notify: true,
           value: null
+        },
+        provider: {
+          type: String,
+          notify: true
         }
       },
 
@@ -157,7 +170,14 @@
         this.page = 'view404';
       },
 
-      firebaseLogin: function() {
+      firebaseLogin: function(e) {
+        if (e.target.getAttribute('data-args') == null) {
+          var app = document.querySelector('#app');
+          app.$.toast.text = 'Login inválido';
+          app.$.toast.show();
+          return;
+        }
+        this.provider = e.target.getAttribute('data-args');
         this.$$('#auth').signInWithPopup();
       },
 
@@ -168,7 +188,7 @@
 
       firebaseLoginError: function(error) {
         var app = document.querySelector('#app');
-        app.$.toast.text = error;
+        app.$.toast.text = error.detail.message;
         app.$.toast.show();
       }
 
