@@ -37,33 +37,6 @@
 
         font-weight: bold;
       }
-
-      paper-material {
-        margin: 15% 25% 15% 32%;
-        width: 35%;
-      }
-
-      paper-material h3 {
-        padding-top: 20px;
-        text-align: center;
-      }
-
-      paper-material paper-input {
-        padding-left: 20px;
-        padding-right: 20px;
-      }
-
-      paper-material paper-button {
-        margin-left: 20px;
-        margin-bottom: 20px;
-        margin-top: 20px;
-        margin-right: 20px;
-        width: 90%;
-      }
-
-      .facebook {
-        background: #64b5f6;
-      }
     </style>
 
     <app-location route="{{route}}"></app-location>
@@ -74,22 +47,7 @@
         tail="{{subroute}}"></app-route>
 
     <template is="dom-if" if="{{!user}}">
-      <firebase-auth
-          id="auth"
-          user="{{user}}"
-          provider="{{provider}}"
-          on-login="onLogin"
-          on-error="firebaseLoginError">
-      </firebase-auth>
-
-      <paper-material elevation="1">
-        <h3>Sistema Teste de Polymer</h3>
-        <paper-input label="E-mail" name="email" id="email" required auto-validate error-message="E-mail é obrigatório"></paper-input>
-        <paper-input type="password" label="Senha" name="senha" id="senha" required auto-validate error-message="Senha é obrigatório"></paper-input>
-        <paper-button raised on-tap="firebaseLogin">Entrar</paper-button>
-        <paper-button raised on-tap="firebaseLogin" data-args="google"><iron-icon icon="social:person"></iron-icon>&nbsp;Entrar com Google</paper-button>
-        <paper-button raised on-tap="firebaseLogin" data-args="facebook" class="facebook"><iron-icon icon="icons:thumbs-up-down"></iron-icon>&nbsp;Entrar com Facebook</paper-button>
-      </paper-material>
+      <my-login user="{{user}}"><my-login>
     </template>
 
     <template is="dom-if" if="{{user}}">
@@ -146,10 +104,6 @@
           notify: true,
           value: null
         },
-        provider: {
-          type: String,
-          notify: true
-        }
       },
 
       observers: [
@@ -170,26 +124,10 @@
         this.page = 'view404';
       },
 
-      firebaseLogin: function(e) {
-        if (e.target.getAttribute('data-args') == null) {
-          var app = document.querySelector('#app');
-          app.$.toast.text = 'Login inválido';
-          app.$.toast.show();
-          return;
-        }
-        this.provider = e.target.getAttribute('data-args');
-        this.$$('#auth').signInWithPopup();
-      },
-
       firebaseLogout: function() {
-        this.$$('#auth').signOut();
+        var myLogin = this.shadowRoot.querySelector('my-login');
+        myLogin.$.auth.signOut();
         window.history.pushState(null, null, '/');
-      },
-
-      firebaseLoginError: function(error) {
-        var app = document.querySelector('#app');
-        app.$.toast.text = error.detail.message;
-        app.$.toast.show();
       }
 
     });

@@ -104,9 +104,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       min-height: 100px;
       background-color: #eeeeee;
     }
-    .toast-hide-button {
-      color: yellow;
-    }
   </style>
 </head>
 
@@ -121,7 +118,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <template is="dom-bind" id="app">
     <my-app></my-app>
     <paper-toast id="toast" vertical-align="top" horizontal-align="right" duration="5000">
-      <a href="#"><span class="toast-hide-button" role="button" tabindex="0" onclick="app.$.toast.hide()">&nbsp;Close</span></a>
     </paper-toast>
   </template>
 

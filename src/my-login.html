@@ -6,7 +6,9 @@
       }
 
       paper-material {
-        margin: 15% 25% 15% 32%;
+        margin-top: 8%;
+        margin-left: 32%;
+        height: 40%;
         width: 35%;
       }
 
@@ -15,30 +17,38 @@
         text-align: center;
       }
 
-      paper-material paper-input {
-        padding-left: 20px;
-        padding-right: 20px;
+      paper-material paper-button {
+        display:block;
+        text-align: center;
+        margin: 0 auto;
+        margin-bottom: 20px;
+        width: 70%;
       }
 
-      paper-material paper-button {
-        margin-left: 20px;
-        margin-bottom: 20px;
-        margin-top: 20px;
+      .password {
+        background: #FFCDD2;
+      }
+
+      .google {
+        background: #66BB6A;
+      }
+
+      .facebook {
+        background: #64b5f6;
       }
     </style>
 
-      <firebase-auth
-          id="auth"
-          user="{{user}}"
-          provider="google"
-          on-error="firebaseLoginError">
-      </firebase-auth>
+    <firebase-auth
+        id="auth"
+        user="{{user}}"
+        provider="{{provider}}"
+        on-error="firebaseLoginError">
+    </firebase-auth>
 
       <paper-material elevation="1">
         <h3>Sistema Teste de Polymer</h3>
-        <paper-input label="E-mail" name="email" id="email" required auto-validate error-message="E-mail é obrigatório"></paper-input>
-        <paper-input type="password" label="Senha" name="senha" id="senha" required auto-validate error-message="Senha é obrigatório"></paper-input>
-        <paper-button raised on-tap="gmailLogin">Entrar com Google</paper-button>
+        <paper-button raised on-tap="firebaseLogin" data-args="google"   class="google"><iron-icon icon="social:person"></iron-icon>&nbsp;Entrar com Google</paper-button>
+        <paper-button raised on-tap="firebaseLogin" data-args="facebook" class="facebook"><iron-icon icon="icons:thumbs-up-down"></iron-icon>&nbsp;Entrar com Facebook</paper-button>
       </paper-material>
 
   </template>
@@ -49,15 +59,30 @@
       is: 'my-login',
 
       properties: {
+        user: {
+          type: Object,
+          notify: true
+        },
+        provider: {
+          type: String,
+          notify: true
+        }
       },
 
-      gmailLogin: function() {
+      firebaseLogin: function(e) {
+        if (e.target.getAttribute('data-args') == null) {
+          var app = document.querySelector('#app');
+          app.$.toast.text = 'Login inválido';
+          app.$.toast.show();
+          return;
+        }
+        this.provider = e.target.getAttribute('data-args');
         this.$.auth.signInWithPopup();
       },
 
-      firebaseLoginError: function(data) {
+      firebaseLoginError: function(error) {
         var app = document.querySelector('#app');
-        app.$.toast.text = data;
+        app.$.toast.text = error.detail.message;
         app.$.toast.show();
       }
 
