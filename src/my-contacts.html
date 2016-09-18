@@ -6,7 +6,7 @@
         padding: 60px;
       }
 
-      .addContato {
+      .fabContato {
         display: block;
         margin: 24px;
       }
@@ -18,24 +18,85 @@
       }
     </style>
 
-    <div class="addContato">
-      <paper-fab class="fabRight" icon="add" elevation="1" title="Cadastrar Contato"></paper-fab></a>
-    </div>
+    <template is="dom-if" if="{{isAddButton}}">
+      <div class="fabContato">
+        <paper-fab class="fabRight" on-tap="nextPage" icon="add" elevation="1" title="Cadastrar Contato"></paper-fab></a>
+      </div>
+    </template>
 
-    <div class="card">
-      <div class="circle">1</div>
-      <h1>View One</h1>
-      <p>Ut labores minimum atomorum pro. Laudem tibique ut has.
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-    </div>
+    <template is="dom-if" if="{{!isAddButton}}">
+      <div class="fabContato">
+        <paper-fab class="fabRight" on-tap="nextPage" icon="hardware:keyboard-arrow-left" elevation="1" title="Voltar"></paper-fab></a>
+      </div>
+    </template>
+
+    <neon-animated-pages id="pages" class="flex" selected="[[selectedPage]]" entry-animation="[[entryAnimation]]" exit-animation="[[exitAnimation]]">
+      <neon-animatable>
+        <div id="contatoList">
+          <div class="card">
+            <div class="circle">1</div>
+            <h1>View One</h1>
+            <p>Ut labores minimum atomorum pro. Laudem tibique ut has.
+            <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
+          </div>
+        </div>
+      </neon-animatable>
+
+      <neon-animatable>
+        <div id="contatoAdd">
+          <div class="card">
+            <div class="circle">2</div>
+            <h1>View Two</h1>
+            <p>Ea duis bonorum nec, falli paulo aliquid ei eum.</p>
+            <p>Id nam odio natum malorum, tibique copiosae expetenda mel ea.Detracto suavitate repudiandae no eum. Id adhuc minim soluta nam.Id nam odio natum malorum, tibique copiosae expetenda mel ea.</p>
+          </div>
+        </div>
+      </neon-animatable>
+    </neon-animated-pages>
 
   </template>
 
   <script>
     Polymer({
+
       is: 'my-contacts',
+
       properties: {
+        selectedPage: {
+          type: String,
+          notify: true,
+          value: 0
+        },
+        entryAnimation: {
+          type: String,
+          notify: true
+        },
+        exitAnimation: {
+          type: String,
+          notify: true
+        },
+        isAddButton: {
+          type: Boolean,
+          notify: true,
+          value: true
+        },
+        behaviors: [
+          Polymer.NeonAnimationRunnerBehavior
+        ]
+      },
+
+      nextPage: function() {
+        if (this.selectedPage == 0) {
+          this.entryAnimation = 'slide-from-right-animation';
+          this.exitAnimation = 'slide-from-right-animation';
+        } else {
+          this.entryAnimation = 'slide-from-left-animation';
+          this.exitAnimation = 'slide-from-left-animation';
+        }
+        this.selectedPage = this.selectedPage ? 0 : 1;
+        this.isAddButton = (this.selectedPage == 0);
       }
+
     });
   </script>
 </dom-module>
