@@ -156,6 +156,7 @@
           app.$.toast.text = 'Operação realizada com sucesso';
           app.$.toast.show();
           document.querySelector('#nome').value = '';
+          document.querySelector('#nome').$.input.focus();
           document.querySelector('#telefone').value = '';
         });
       }
