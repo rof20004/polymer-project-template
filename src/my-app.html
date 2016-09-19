@@ -1,3 +1,5 @@
+<link rel="import" href="my-login.html">
+
 <dom-module id="my-app">
   <template>
     <style>
@@ -78,7 +80,7 @@
               attr-for-selected="name"
               fallback-selection="view404"
               role="main">
-            <my-contacts name="contacts"></my-contacts>
+            <my-contacts name="contacts" user="{{user}}"></my-contacts>
             <my-view2 name="view2"></my-view2>
             <my-view3 name="view3"></my-view3>
             <my-view404 name="view404"></my-view404>

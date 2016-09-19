@@ -16,28 +16,73 @@
         right: 25px;
         top: 80px;
       }
+
+      paper-input {
+        margin-right: 20px;
+      }
+
+      paper-button {
+        margin-left: 0px;
+      }
+
+      paper-button.custom {
+        --paper-button-ink-color: var(--paper-pink-a200);
+        /* These could also be individually defined for each of the
+          specific css classes, but we'll just do it once as an example */
+        --paper-button-flat-keyboard-focus: {
+          background-color: var(--paper-pink-a200);
+          color: white !important;
+        };
+        --paper-button-raised-keyboard-focus: {
+          background-color: var(--paper-pink-a200) !important;
+          color: white !important;
+        };
+      }
+
+      paper-button.custom:hover {
+        background-color: var(--paper-indigo-100);
+      }
+
+      paper-button.indigo {
+        background-color: var(--paper-indigo-500);
+        color: white;
+        --paper-button-raised-keyboard-focus: {
+          background-color: var(--paper-pink-a200) !important;
+          color: white !important;
+        };
+      }
     </style>
+
+    <!-- Firebase Document - Tela de Cadastro -->
+    <firebase-document
+      id="ref"
+      path="https://polymer-test-6f997.firebaseio.com/user/[[user.uid]]"
+      data="{{contato}}"
+      log>
+    </firebase-document>
 
     <template is="dom-if" if="{{isAddButton}}">
       <div class="fabContato">
-        <paper-fab class="fabRight" on-tap="nextPage" icon="add" elevation="1" title="Cadastrar Contato"></paper-fab></a>
+        <paper-fab class="fabRight" on-tap="nextPage" icon="icons:create" elevation="1" >
+        </paper-fab>
+        <paper-tooltip position="right">Ir para Cadastro de Contato</paper-tooltip>
       </div>
     </template>
 
     <template is="dom-if" if="{{!isAddButton}}">
       <div class="fabContato">
-        <paper-fab class="fabRight" on-tap="nextPage" icon="hardware:keyboard-arrow-left" elevation="1" title="Voltar"></paper-fab></a>
+        <paper-fab class="fabRight" on-tap="nextPage" icon="hardware:keyboard-arrow-left" elevation="1" >
+        </paper-fab>
+        <paper-tooltip position="right">Voltar para Listagem de Contatos</paper-tooltip>
       </div>
     </template>
 
-    <neon-animated-pages id="pages" class="flex" selected="[[selectedPage]]" entry-animation="[[entryAnimation]]" exit-animation="[[exitAnimation]]">
+    <neon-animated-pages id="pages" class="flex" selected="[[selectedPage]]" >
       <neon-animatable>
         <div id="contatoList">
           <div class="card">
-            <div class="circle">1</div>
-            <h1>View One</h1>
-            <p>Ut labores minimum atomorum pro. Laudem tibique ut has.
-            <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
+            <h1>Listar Contatos</h1>
+            <p><paper-input label="Pesquisar"></paper-input></p>
           </div>
         </div>
       </neon-animatable>
@@ -45,10 +90,18 @@
       <neon-animatable>
         <div id="contatoAdd">
           <div class="card">
-            <div class="circle">2</div>
-            <h1>View Two</h1>
-            <p>Ea duis bonorum nec, falli paulo aliquid ei eum.</p>
-            <p>Id nam odio natum malorum, tibique copiosae expetenda mel ea.Detracto suavitate repudiandae no eum. Id adhuc minim soluta nam.Id nam odio natum malorum, tibique copiosae expetenda mel ea.</p>
+            <h1>Cadastrar Contato</h1>
+            <form is="iron-form" method="post">
+              <div class="horizontal layout">
+                <div class="flex-8">
+                  <paper-input label="Nome" id="nome" value="{{contato.nome}}"></paper-input>
+                </div>
+                <div class="flex-4">
+                  <gold-phone-input id="telefone" phone-number-pattern="XX-XXXXX-XXXX" value="{{contato.telefone}}" auto-validate></gold-phone-input>
+                </div>
+              </div>
+            </form>
+            <paper-button raised class="custom indigo" on-tap="saveContact">Salvar</paper-button>
           </div>
         </div>
       </neon-animatable>
@@ -62,6 +115,13 @@
       is: 'my-contacts',
 
       properties: {
+        user: {
+          type: Object
+        },
+        contato: {
+          type: Object,
+          notify: true
+        },
         selectedPage: {
           type: String,
           notify: true,
@@ -86,15 +146,12 @@
       },
 
       nextPage: function() {
-        if (this.selectedPage == 0) {
-          this.entryAnimation = 'slide-from-right-animation';
-          this.exitAnimation = 'slide-from-right-animation';
-        } else {
-          this.entryAnimation = 'slide-from-left-animation';
-          this.exitAnimation = 'slide-from-left-animation';
-        }
         this.selectedPage = this.selectedPage ? 0 : 1;
         this.isAddButton = (this.selectedPage == 0);
+      },
+
+      saveContact: function() {
+        //this.$.ref.save('https://polymer-test-6f997.firebaseio.com/user/' + this.user.uid + '');
       }
 
     });
