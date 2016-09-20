@@ -17,7 +17,7 @@
         top: 80px;
       }
 
-      paper-input {
+      .btnForms {
         margin-right: 20px;
       }
 
@@ -52,6 +52,8 @@
         };
       }
     </style>
+
+    <iron-media-query query="(max-width:768px)" query-matches="{{isMobile}}"></iron-media-query>
 
     <!-- Firebase Document - Tela de Cadastro -->
     <firebase-document
@@ -92,14 +94,22 @@
           <div class="card">
             <h1>Cadastrar Contato</h1>
             <form is="iron-form" method="post">
-              <div class="horizontal layout">
-                <div class="flex-8">
+              <template is="dom-if" if="{{isMobile}}">
+                <div class="vertical layout">
                   <paper-input label="Nome" id="nome" value="{{contato.nome}}"></paper-input>
-                </div>
-                <div class="flex-4">
                   <gold-phone-input id="telefone" phone-number-pattern="XX-XXXXX-XXXX" value="{{contato.telefone}}" auto-validate></gold-phone-input>
                 </div>
-              </div>
+              </template>
+              <template is="dom-if" if="{{!isMobile}}">
+                <div class="horizontal layout" >
+                  <div class="flex-7">
+                    <paper-input class="btnForms" label="Nome" id="nome" value="{{contato.nome}}"></paper-input>
+                  </div>
+                  <div class="flex-5">
+                    <gold-phone-input label="Telefone" id="telefone" phone-number-pattern="XX-XXXXX-XXXX" value="{{contato.telefone}}" auto-validate error-message="Número de telefone inválido"></gold-phone-input>
+                  </div>
+                </div>
+              </template>
             </form>
             <paper-button raised class="custom indigo" on-tap="saveContact">Salvar</paper-button>
           </div>
