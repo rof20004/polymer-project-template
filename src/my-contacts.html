@@ -163,7 +163,7 @@
 
       saveContact: function() {
         this.$.ref.save('/user/' + this.user.uid + '/contatos').then(function() {
-          let app = document.querySelector('#app');
+          var app = document.querySelector('#app');
           app.$.toast.text = 'Operação realizada com sucesso';
           app.$.toast.show();
           document.querySelector('#nome').value = '';
