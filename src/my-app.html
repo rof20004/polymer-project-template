@@ -127,7 +127,7 @@
       },
 
       firebaseLogout: function() {
-        var myLogin = this.querySelector('my-login');
+        var myLogin = this.$$('my-login');
         myLogin.$.auth.signOut();
         window.history.pushState(null, null, '/');
       }
