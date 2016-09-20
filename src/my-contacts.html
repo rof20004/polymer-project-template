@@ -17,11 +17,12 @@
         top: 80px;
       }
 
-      .btnForms {
+      .formInput {
         margin-right: 20px;
       }
 
       paper-button {
+        margin-top: 20px;
         margin-left: 0px;
       }
 
@@ -53,7 +54,7 @@
       }
     </style>
 
-    <iron-media-query query="(max-width:768px)" query-matches="{{isMobile}}"></iron-media-query>
+    <iron-media-query query="(max-width:900px)" query-matches="{{isMobile}}"></iron-media-query>
 
     <!-- Firebase Document - Tela de Cadastro -->
     <firebase-document
@@ -103,10 +104,10 @@
               <template is="dom-if" if="{{!isMobile}}">
                 <div class="horizontal layout" >
                   <div class="flex-7">
-                    <paper-input class="btnForms" label="Nome" id="nome" value="{{contato.nome}}"></paper-input>
+                    <paper-input class="formInput" label="Nome" id="nome" value="{{contato.nome}}"></paper-input>
                   </div>
                   <div class="flex-5">
-                    <gold-phone-input label="Telefone" id="telefone" phone-number-pattern="XX-XXXXX-XXXX" value="{{contato.telefone}}" auto-validate error-message="Número de telefone inválido"></gold-phone-input>
+                    <gold-phone-input class="formInput" label="Telefone" id="telefone" phone-number-pattern="XX-XXXXX-XXXX" value="{{contato.telefone}}" auto-validate error-message="Número de telefone inválido"></gold-phone-input>
                   </div>
                 </div>
               </template>
