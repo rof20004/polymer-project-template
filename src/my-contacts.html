@@ -56,6 +56,16 @@
 
     <iron-media-query query="(max-width:900px)" query-matches="{{isMobile}}"></iron-media-query>
 
+    <!-- Firebase Query - Tela de Pesquisa -->
+    <firebase-query
+      id="query"
+      path="https://polymer-test-6f997.firebaseio.com"
+      order-by-child="user"
+      equal-to="[[user.uid]]"
+      data="{{contatoList}}"
+      log>
+    </firebase-query>
+
     <!-- Firebase Document - Tela de Cadastro -->
     <firebase-document
       id="ref"
@@ -86,6 +96,17 @@
           <div class="card">
             <h1>Listar Contatos</h1>
             <p><paper-input label="Pesquisar"></paper-input></p>
+          </div>
+
+          <div class="card">
+            <ul>
+              <template is="dom-repeat" items="{{contatoList}}" as="c">
+                <li>
+                  <p>{{c.nome}}</p>
+                  <p>{{c.telefone}}</p>
+                </li>
+              </template>
+            </ul>
           </div>
         </div>
       </neon-animatable>
@@ -129,6 +150,10 @@
         user: {
           type: Object
         },
+        contatoList: {
+          type: Object,
+          notify: true
+        },
         contato: {
           type: Object,
           notify: true
@@ -154,6 +179,10 @@
         behaviors: [
           Polymer.NeonAnimationRunnerBehavior
         ]
+      },
+
+      ready: function () {
+        console.log(eval(this.$.query));
       },
 
       nextPage: function() {
