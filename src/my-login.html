@@ -73,7 +73,7 @@
           return;
         }
         this.provider = e.target.getAttribute('data-args');
-        this.$.auth.signInWithPopup();
+        this.$.auth.signInWithRedirect();
       },
 
       firebaseLoginError: function(error) {
