@@ -59,9 +59,7 @@
     <!-- Firebase Query - Tela de Pesquisa -->
     <firebase-query
       id="query"
-      path="https://polymer-test-6f997.firebaseio.com"
-      order-by-child="user"
-      equal-to="[[user.uid]]"
+      path="https://polymer-test-6f997.firebaseio.com/user/[[user.uid]]/contatos"
       data="{{contatoList}}"
       log>
     </firebase-query>
@@ -100,10 +98,10 @@
 
           <div class="card">
             <ul>
-              <template is="dom-repeat" items="{{contatoList}}" as="c">
+              <template is="dom-repeat" items="[[contatoList]]" as="c">
                 <li>
-                  <p>{{c.nome}}</p>
-                  <p>{{c.telefone}}</p>
+                  <p>[[c.nome]]</p>
+                  <p>[[c.telefone]]</p>
                 </li>
               </template>
             </ul>
@@ -151,7 +149,7 @@
           type: Object
         },
         contatoList: {
-          type: Object,
+          type: Array,
           notify: true
         },
         contato: {
@@ -181,23 +179,20 @@
         ]
       },
 
-      ready: function () {
-        console.log(eval(this.$.query));
-      },
-
       nextPage: function() {
         this.selectedPage = this.selectedPage ? 0 : 1;
         this.isAddButton = (this.selectedPage == 0);
       },
 
       saveContact: function() {
+        var root = this;
         this.$.ref.save('/user/' + this.user.uid + '/contatos').then(function() {
           var app = document.querySelector('#app');
           app.$.toast.text = 'Operação realizada com sucesso';
           app.$.toast.show();
-          document.querySelector('#nome').value = '';
-          document.querySelector('#nome').$.input.focus();
-          document.querySelector('#telefone').value = '';
+          root.$$('#nome').value = '';
+          root.$$('#nome').$.input.focus();
+          root.$$('#telefone').value = '';
         });
       }
 
