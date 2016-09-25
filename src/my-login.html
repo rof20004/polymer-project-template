@@ -1,3 +1,18 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/iron-icons/av-icons.html">
+<link rel="import" href="../bower_components/iron-icons/communication-icons.html">
+<link rel="import" href="../bower_components/iron-icons/device-icons.html">
+<link rel="import" href="../bower_components/iron-icons/editor-icons.html">
+<link rel="import" href="../bower_components/iron-icons/hardware-icons.html">
+<link rel="import" href="../bower_components/iron-icons/image-icons.html">
+<link rel="import" href="../bower_components/iron-icons/maps-icons.html">
+<link rel="import" href="../bower_components/iron-icons/notification-icons.html">
+<link rel="import" href="../bower_components/iron-icons/places-icons.html">
+<link rel="import" href="../bower_components/iron-icons/social-icons.html">
+<link rel="import" href="shared-styles.html">
+
 <dom-module id="my-login">
   <template>
     <style include="shared-styles">
@@ -67,9 +82,9 @@
 
       firebaseLogin: function(e) {
         if (e.target.getAttribute('data-args') == null) {
-          var app = document.querySelector('#app');
-          app.$.toast.text = 'Login inválido';
-          app.$.toast.show();
+          var main = document.querySelector('#main');
+          main.$.toast.text = 'Login inválido';
+          main.$.toast.show();
           return;
         }
         this.provider = e.target.getAttribute('data-args');
@@ -77,9 +92,9 @@
       },
 
       firebaseLoginError: function(error) {
-        var app = document.querySelector('#app');
-        app.$.toast.text = error.detail.message;
-        app.$.toast.show();
+        var main = document.querySelector('#main');
+        main.$.toast.text = error.detail.message;
+        main.$.toast.show();
       }
 
     });
