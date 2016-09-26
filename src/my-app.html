@@ -9,6 +9,8 @@
 <link rel="import" href="../bower_components/app-route/app-route.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-app.html">
+<link rel="import" href="../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="my-login.html">
 
 <dom-module id="my-app">
@@ -51,6 +53,15 @@
         font-weight: bold;
       }
     </style>
+
+    <firebase-app
+        auth-domain="polymer-test-6f997.firebaseapp.com"
+        database-url="https://polymer-test-6f997.firebaseio.com"
+        api-key="AIzaSyBNam3eFCFQnIsflAk1oJ8stEcHV_nmJ1s">
+    </firebase-app>
+
+    <paper-toast id="toast" vertical-align="top" horizontal-align="right" duration="8000">
+    </paper-toast>
 
     <app-location route="{{route}}"></app-location>
     <app-route

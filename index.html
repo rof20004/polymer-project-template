@@ -93,8 +93,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }
   </script>
 
-  <link rel="import" href="/bower_components/polymerfire/firebase-app.html">
-  <link rel="import" href="/bower_components/paper-toast/paper-toast.html">
   <link rel="import" href="/src/my-app.html">
 
   <style>
@@ -110,16 +108,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <body>
 
-  <firebase-app
-      auth-domain="polymer-test-6f997.firebaseapp.com"
-      database-url="https://polymer-test-6f997.firebaseio.com"
-      api-key="AIzaSyBNam3eFCFQnIsflAk1oJ8stEcHV_nmJ1s">
-  </firebase-app>
-
-  <template is="dom-bind" id="app">
+  <template is="dom-bind">
     <my-app></my-app>
-    <paper-toast id="toast" vertical-align="top" horizontal-align="right" duration="8000">
-    </paper-toast>
   </template>
 
 </body>

@@ -82,9 +82,9 @@
 
       firebaseLogin: function(e) {
         if (e.target.getAttribute('data-args') == null) {
-          var main = document.querySelector('#main');
-          main.$.toast.text = 'Login inválido';
-          main.$.toast.show();
+          var myApp = document.querySelector('my-app');
+          myApp.$.toast.text = 'Login inválido';
+          myApp.$.toast.show();
           return;
         }
         this.provider = e.target.getAttribute('data-args');
@@ -92,9 +92,9 @@
       },
 
       firebaseLoginError: function(error) {
-        var main = document.querySelector('#main');
-        main.$.toast.text = error.detail.message;
-        main.$.toast.show();
+        var myApp = document.querySelector('my-app');
+        myApp.$.toast.text = error.detail.message;
+        myApp.$.toast.show();
       }
 
     });

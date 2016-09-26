@@ -199,9 +199,9 @@
       saveContact: function() {
         var root = this;
         this.$.ref.save('/user/' + this.user.uid + '/contatos').then(function() {
-          var app = document.querySelector('#app');
-          app.$.toast.text = 'Operação realizada com sucesso';
-          app.$.toast.show();
+          var myApp = document.querySelector('my-app');
+          myApp.$.toast.text = 'Operação realizada com sucesso';
+          myApp.$.toast.show();
           root.$$('#nome').value = '';
           root.$$('#nome').$.input.focus();
           root.$$('#telefone').value = '';
