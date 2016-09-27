@@ -15,4 +15,5 @@ module.exports = {
   ],
   navigateFallback: '/index.html',
   navigateFallbackWhitelist: [ /^\/home\//, /^\/other\// ]
+  // navigateFallbackWhitelist: [/^(?!\/__)/] for future test
 };
