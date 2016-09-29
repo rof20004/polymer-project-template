@@ -72,7 +72,7 @@
       },
 
       firebaseLogin: function(e) {
-        this.provider = e.target.getAttribute('data-args');
+        this.provider = Polymer.dom(e).localTarget.getAttribute('data-args');
         if (this.provider == null) {
           var myApp = document.querySelector('my-app');
           myApp.$.toast.text = 'Login inválido';
