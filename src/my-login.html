@@ -1,16 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
-<link rel="import" href="../bower_components/iron-icons/av-icons.html">
-<link rel="import" href="../bower_components/iron-icons/communication-icons.html">
-<link rel="import" href="../bower_components/iron-icons/device-icons.html">
-<link rel="import" href="../bower_components/iron-icons/editor-icons.html">
-<link rel="import" href="../bower_components/iron-icons/hardware-icons.html">
-<link rel="import" href="../bower_components/iron-icons/image-icons.html">
-<link rel="import" href="../bower_components/iron-icons/maps-icons.html">
-<link rel="import" href="../bower_components/iron-icons/notification-icons.html">
-<link rel="import" href="../bower_components/iron-icons/places-icons.html">
-<link rel="import" href="../bower_components/iron-icons/social-icons.html">
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="my-login">
@@ -32,12 +22,11 @@
         text-align: center;
       }
 
-      .card paper-button {
+      .card #loginButtons {
         display:block;
         text-align: center;
         margin: 0 auto;
         margin-bottom: 20px;
-        width: 70%;
       }
 
       .google {
@@ -58,8 +47,10 @@
 
       <div class="card">
         <h3>Sistema Teste de Polymer</h3>
-        <paper-button raised on-tap="firebaseLogin" data-args="google"   class="google"><iron-icon icon="social:person"></iron-icon>&nbsp;Entrar com Google</paper-button>
-        <paper-button raised on-tap="firebaseLogin" data-args="facebook" class="facebook"><iron-icon icon="icons:thumbs-up-down"></iron-icon>&nbsp;Entrar com Facebook</paper-button>
+        <div id="loginButtons">
+          <paper-icon-button icon="cloud" on-tap="firebaseLogin" data-args="google" title="Entrar com Google"></paper-icon-button>
+          <paper-icon-button icon="move-to-inbox" on-tap="firebaseLogin" data-args="facebook" title="Entrar com Facebook"></paper-icon-button>
+        </div>
       </div>
 
   </template>
@@ -81,14 +72,14 @@
       },
 
       firebaseLogin: function(e) {
-        if (e.target.getAttribute('data-args') == null) {
+        this.provider = e.target.getAttribute('data-args');
+        if (this.provider == null) {
           var myApp = document.querySelector('my-app');
           myApp.$.toast.text = 'Login inválido';
           myApp.$.toast.show();
           return;
         }
-        this.provider = e.target.getAttribute('data-args');
-        this.$.auth.signInWithRedirect();
+        this.$.auth.signInWithPopup();
       },
 
       firebaseLoginError: function(error) {
