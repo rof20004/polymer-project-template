@@ -9,6 +9,7 @@
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/iron-flex-layout/classes/iron-flex-layout.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="my-contacts">
@@ -65,6 +66,16 @@
           color: white !important;
         };
       }
+
+      table {
+        text-align: left;
+        border-collapse: separate;
+        border-spacing: 30px 0;
+      }
+
+      td {
+        padding: 10px 0;
+      }
     </style>
 
     <iron-media-query query="(max-width:900px)" query-matches="{{isMobile}}"></iron-media-query>
@@ -110,14 +121,24 @@
           </div>
 
           <div class="card">
-            <ul>
-              <template is="dom-repeat" items="[[contatoList]]" as="c">
-                <li>
-                  <p>[[c.nome]]</p>
-                  <p>[[c.telefone]]</p>
-                </li>
-              </template>
-            </ul>
+            <table>
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Telefone</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <template is="dom-repeat" items="[[contatoList]]" as="c">
+                  <tr>
+                    <td>[[c.nome]]</td>
+                    <td>[[c.telefone]]</td>
+                    <td>...</td>
+                  </tr>
+                </template>
+              </tbody>
+            </table>
           </div>
         </div>
       </neon-animatable>
